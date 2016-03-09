@@ -1,0 +1,27 @@
+#!/usr/bin/expect --
+# This script will login to the baord after booting,start mvtaf services and exectute tests.
+
+
+spawn telnet 137.202.133.176 2302
+sleep 5
+
+#Logint to Board
+expect "mx6q login:"
+send "root\r"
+sleep 1
+
+#start mvtaf services
+expect "root@mx6q:~#"
+send "/etc/init.d/mvtsd start\r"
+sleep 1
+
+#ping-pong test 
+expect "root@mx6q:~#"
+send "/opt/mvtaf/scripts/mvtsc.py ping localhost\r"
+sleep 2
+expect "root@mx6q:~#"
+send "/opt/mvtaf/scripts/mvtsc.py ping 137.202.133.132\r"
+sleep 2
+close
+
+ 
